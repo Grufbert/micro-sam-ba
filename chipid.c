@@ -68,6 +68,34 @@ static const struct _chip _chips_sam4[] = {
 	{ "SAM4E8EB" , 0xa3cc0ce1, 0x00120208, 0x400e0a00, 0x00400000,  512,	2, 0xa5000005 },
 };
 
+static const struct _chip _chips_sam4s[] = {
+	{ "SAM4SA16C (Rev A)" , 0x28A70CE0, 0x00000000, 0x400e0a00, 0x00400000,  1024,	2, 0xa5000005 },
+	{ "SAM4SA16C (Rev B)" , 0x28A70CE1, 0x00000000, 0x400e0a00, 0x00400000,  1024,	2, 0xa5000005 },
+	{ "SAM4SA16B (Rev A)" , 0x28970CE0, 0x00000000, 0x400e0a00, 0x00400000,  1024,	2, 0xa5000005 },
+	{ "SAM4SA16B (Rev B)" , 0x28970CE1, 0x00000000, 0x400e0a00, 0x00400000,  1024,	2, 0xa5000005 },
+	{ "SAM4S16B (Rev A)"  , 0x289C0CE0, 0x00000000, 0x400e0a00, 0x00400000,  1024,	2, 0xa5000005 },
+	{ "SAM4S16B (Rev B)"  , 0x289C0CE1, 0x00000000, 0x400e0a00, 0x00400000,  1024,	2, 0xa5000005 },
+	{ "SAM4S16C (Rev A)"  , 0x28AC0CE0, 0x00000000, 0x400e0a00, 0x00400000,  1024,	2, 0xa5000005 },
+	{ "SAM4S16C (Rev B)"  , 0x28AC0CE1, 0x00000000, 0x400e0a00, 0x00400000,  1024,	2, 0xa5000005 },
+	{ "SAM4S8B (Rev A)"   , 0x289C0AE0, 0x00000000, 0x400e0a00, 0x00400000,  512,	2, 0xa5000005 },
+	{ "SAM4S8B (Rev B)"   , 0x289C0AE1, 0x00000000, 0x400e0a00, 0x00400000,  512,	2, 0xa5000005 },
+	{ "SAM4S8C (Rev A)"   , 0x28AC0AE0, 0x00000000, 0x400e0a00, 0x00400000,  512,	2, 0xa5000005 },
+	{ "SAM4S8C (Rev B)"   , 0x28AC0AE1, 0x00000000, 0x400e0a00, 0x00400000,  512,	2, 0xa5000005 },
+	{ "SAM4S4C (Rev A)"   , 0x28AB09E0, 0x00000000, 0x400e0a00, 0x00400000,  256,	2, 0xa5000005 },
+	{ "SAM4S4C (Rev B)"   , 0x28AB09E1, 0x00000000, 0x400e0a00, 0x00400000,  256,	2, 0xa5000005 },
+	{ "SAM4S4B (Rev A)"   , 0x289B09E0, 0x00000000, 0x400e0a00, 0x00400000,  256,	2, 0xa5000005 },
+	{ "SAM4S4B (Rev B)"   , 0x289B09E1, 0x00000000, 0x400e0a00, 0x00400000,  256,	2, 0xa5000005 },
+	{ "SAM4S4A (Rev A)"   , 0x288B09E0, 0x00000000, 0x400e0a00, 0x00400000,  256,	2, 0xa5000005 },
+	{ "SAM4S4A (Rev B)"   , 0x288B09E1, 0x00000000, 0x400e0a00, 0x00400000,  256,	2, 0xa5000005 },
+	{ "SAM4S2C (Rev A)"   , 0x28AB07E0, 0x00000000, 0x400e0a00, 0x00400000,  128,	2, 0xa5000005 },
+	{ "SAM4S2C (Rev B)"   , 0x28AB07E1, 0x00000000, 0x400e0a00, 0x00400000,  128,	2, 0xa5000005 },
+	{ "SAM4S2B (Rev A)"   , 0x289B07E0, 0x00000000, 0x400e0a00, 0x00400000,  128,	2, 0xa5000005 },
+	{ "SAM4S2B (Rev B)"   , 0x289B07E1, 0x00000000, 0x400e0a00, 0x00400000,  128,	2, 0xa5000005 },
+	{ "SAM4S2A (Rev A)"   , 0x288B07E0, 0x00000000, 0x400e0a00, 0x00400000,  128,	2, 0xa5000005 },
+	{ "SAM4S2A (Rev B)"   , 0x288B07E1, 0x00000000, 0x400e0a00, 0x00400000,  128,	2, 0xa5000005 },
+};
+
+
 static const struct _chip_serie _chip_series[] = {
 	{
 		.name       = "samx7",
@@ -84,6 +112,14 @@ static const struct _chip_serie _chip_series[] = {
 		.rstccr_reg = 0x400e1800,
 		.nb_chips   = ARRAY_SIZE(_chips_sam4),
 		.chips      = _chips_sam4,
+	},
+	{
+		.name       = "sam4s",
+		.cidr_reg   = 0x400e0740,
+		.exid_reg   = 0x400e0744,
+		.rstccr_reg = 0x400e1400,
+		.nb_chips   = ARRAY_SIZE(_chips_sam4s),
+		.chips      = _chips_sam4s,
 	},
 };
 
