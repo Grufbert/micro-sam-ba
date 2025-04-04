@@ -1,0 +1,20 @@
+image: ubuntu:latest
+
+before_script:
+ 
+build:
+  stage: build
+  tags:
+    - docker
+  script:
+    - pwd
+    - apt update
+    - apt install -y make
+    - apt install -y "gcc"
+    - make
+    - pwd
+    - ls -la
+  artifacts:
+    paths:
+      - usamba
+#    expire_in: 1 week
