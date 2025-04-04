@@ -8,6 +8,7 @@ microcontrollers:
 
   - Atmel SAME70/S70/V70/V71
   - Atmel SAM4E8C/SAM4E8E
+  - Atmel SAM4S
 
 Communication with SAM-BA bootloader is only supported through USB.
 
