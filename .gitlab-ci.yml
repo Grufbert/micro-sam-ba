@@ -12,8 +12,7 @@ build:
     - apt install -y make
     - apt install -y "gcc"
     - make
-    - pwd
-    - ls -la
+    - ./usamba --version
   artifacts:
     paths:
       - usamba

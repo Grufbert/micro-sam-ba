@@ -185,6 +185,11 @@ static void usage(char* prog)
 	printf("         prefixed by '0x') or octal (if prefixed by 0).\n");
 }
 
+static void version(char* prog)
+{
+	printf("__TIME__");
+}
+
 enum {
 	CMD_READ = 1,
 	CMD_WRITE = 2,
@@ -208,6 +213,11 @@ int main(int argc, char *argv[])
 	bool err = true;
 
 	// parse command line
+	if ((argc > 1) && (!strcmp(argv[1], "--version")))
+	{
+		version(argv[0]);
+		return EXIT_SUCCESS;
+	}
 	if (argc < 3) {
 		fprintf(stderr, "Error: not enough arguments\n");
 		usage(argv[0]);
