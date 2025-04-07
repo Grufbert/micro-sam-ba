@@ -45,4 +45,6 @@ extern bool chipid_check_serie(serial_port_handle_t fd, const struct _chip_serie
 
 extern const struct _chip_serie* chipid_identity_serie(serial_port_handle_t fd, const struct _chip** chip);
 
+extern uint32_t supported_chips_checksum(void);
+
 #endif /* CHIPID_H_ */

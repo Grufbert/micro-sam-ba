@@ -160,3 +160,58 @@ const struct _chip_serie* chipid_identity_serie(serial_port_handle_t fd, const s
 			return &_chip_series[i];
 	return NULL;
 }
+
+
+// _chip_series muss extern definiert sein, z. B. in einer anderen Quelldatei.
+extern const struct _chip_serie _chip_series[];
+
+uint32_t supported_chips_checksum(void) {
+    uint32_t checksum = 0;
+
+    for (size_t i = 0; i < ARRAY_SIZE(_chip_series); i++) {
+        const struct _chip_serie *serie = &_chip_series[i];
+
+		uint32_t series_checksum = 0;
+
+        // Verarbeite den String der Serienbezeichnung
+        if (serie->name) {
+            const char *ptr = serie->name;
+            while (*ptr) {
+                series_checksum += (uint32_t)*ptr++;
+            }
+        }
+
+        // Addiere numerische Felder der Serie
+        series_checksum += serie->cidr_reg;
+        series_checksum += serie->exid_reg;
+        series_checksum += serie->rstccr_reg;
+        series_checksum += serie->nb_chips;
+
+        // Iteriere über die unterstützten Chips dieser Serie
+        for (size_t j = 0; j < serie->nb_chips; j++) {
+            const struct _chip *chip = &serie->chips[j];
+
+            // Verarbeite den String der Chipbezeichnung
+            if (chip->name) {
+                const char *ptr = chip->name;
+                while (*ptr) {
+                    series_checksum += (uint32_t)*ptr++;
+                }
+            }
+
+            // Addiere die restlichen numerischen Felder
+            series_checksum += chip->cidr;
+            series_checksum += chip->exid;
+            series_checksum += chip->eefc_base;
+            series_checksum += chip->flash_addr;
+            series_checksum += chip->flash_size;
+            series_checksum += chip->gpnvm;
+            series_checksum += chip->rstccr;
+        }
+		printf("Processor Family: %s; Supported Devices: %u; Checksum 0x%08x\n", serie->name, serie->nb_chips, series_checksum);
+		checksum += series_checksum;
+    }
+    
+    //printf("Checksum: 0x%08x\n", checksum);
+	return checksum;
+}

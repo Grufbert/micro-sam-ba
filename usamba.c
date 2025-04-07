@@ -187,7 +187,18 @@ static void usage(char* prog)
 
 static void version(char* prog)
 {
-	printf("__TIME__");
+    // Version information
+    printf("uSAMBA (Micro SAM-BA)\n");
+    
+    // Build information (date and time)
+    printf("Build Date: " __DATE__ "\n");
+    printf("Build Time: " __TIME__ "\n");
+#ifdef __VERSION__
+    printf("Compiler Version: " __VERSION__ "\n");
+#endif
+	
+	printf("\nSupported Devices:\n");
+	printf("Complete Database Checksum: 0x%08x\n", supported_chips_checksum());
 }
 
 enum {
