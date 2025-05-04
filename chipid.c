@@ -68,6 +68,34 @@ static const struct _chip _chips_sam4[] = {
 	{ "SAM4E8EB" , 0xa3cc0ce1, 0x00120208, 0x400e0a00, 0x00400000,  512,	2, 0xa5000005 },
 };
 
+static const struct _chip _chips_sam4s[] = {
+	{ "SAM4SA16C (Rev A)" , 0x28A70CE0, 0x00000000, 0x400e0a00, 0x00400000,  1024,	2, 0xa5000005 },
+	{ "SAM4SA16C (Rev B)" , 0x28A70CE1, 0x00000000, 0x400e0a00, 0x00400000,  1024,	2, 0xa5000005 },
+	{ "SAM4SA16B (Rev A)" , 0x28970CE0, 0x00000000, 0x400e0a00, 0x00400000,  1024,	2, 0xa5000005 },
+	{ "SAM4SA16B (Rev B)" , 0x28970CE1, 0x00000000, 0x400e0a00, 0x00400000,  1024,	2, 0xa5000005 },
+	{ "SAM4S16B (Rev A)"  , 0x289C0CE0, 0x00000000, 0x400e0a00, 0x00400000,  1024,	2, 0xa5000005 },
+	{ "SAM4S16B (Rev B)"  , 0x289C0CE1, 0x00000000, 0x400e0a00, 0x00400000,  1024,	2, 0xa5000005 },
+	{ "SAM4S16C (Rev A)"  , 0x28AC0CE0, 0x00000000, 0x400e0a00, 0x00400000,  1024,	2, 0xa5000005 },
+	{ "SAM4S16C (Rev B)"  , 0x28AC0CE1, 0x00000000, 0x400e0a00, 0x00400000,  1024,	2, 0xa5000005 },
+	{ "SAM4S8B (Rev A)"   , 0x289C0AE0, 0x00000000, 0x400e0a00, 0x00400000,  512,	2, 0xa5000005 },
+	{ "SAM4S8B (Rev B)"   , 0x289C0AE1, 0x00000000, 0x400e0a00, 0x00400000,  512,	2, 0xa5000005 },
+	{ "SAM4S8C (Rev A)"   , 0x28AC0AE0, 0x00000000, 0x400e0a00, 0x00400000,  512,	2, 0xa5000005 },
+	{ "SAM4S8C (Rev B)"   , 0x28AC0AE1, 0x00000000, 0x400e0a00, 0x00400000,  512,	2, 0xa5000005 },
+	{ "SAM4S4C (Rev A)"   , 0x28AB09E0, 0x00000000, 0x400e0a00, 0x00400000,  256,	2, 0xa5000005 },
+	{ "SAM4S4C (Rev B)"   , 0x28AB09E1, 0x00000000, 0x400e0a00, 0x00400000,  256,	2, 0xa5000005 },
+	{ "SAM4S4B (Rev A)"   , 0x289B09E0, 0x00000000, 0x400e0a00, 0x00400000,  256,	2, 0xa5000005 },
+	{ "SAM4S4B (Rev B)"   , 0x289B09E1, 0x00000000, 0x400e0a00, 0x00400000,  256,	2, 0xa5000005 },
+	{ "SAM4S4A (Rev A)"   , 0x288B09E0, 0x00000000, 0x400e0a00, 0x00400000,  256,	2, 0xa5000005 },
+	{ "SAM4S4A (Rev B)"   , 0x288B09E1, 0x00000000, 0x400e0a00, 0x00400000,  256,	2, 0xa5000005 },
+	{ "SAM4S2C (Rev A)"   , 0x28AB07E0, 0x00000000, 0x400e0a00, 0x00400000,  128,	2, 0xa5000005 },
+	{ "SAM4S2C (Rev B)"   , 0x28AB07E1, 0x00000000, 0x400e0a00, 0x00400000,  128,	2, 0xa5000005 },
+	{ "SAM4S2B (Rev A)"   , 0x289B07E0, 0x00000000, 0x400e0a00, 0x00400000,  128,	2, 0xa5000005 },
+	{ "SAM4S2B (Rev B)"   , 0x289B07E1, 0x00000000, 0x400e0a00, 0x00400000,  128,	2, 0xa5000005 },
+	{ "SAM4S2A (Rev A)"   , 0x288B07E0, 0x00000000, 0x400e0a00, 0x00400000,  128,	2, 0xa5000005 },
+	{ "SAM4S2A (Rev B)"   , 0x288B07E1, 0x00000000, 0x400e0a00, 0x00400000,  128,	2, 0xa5000005 },
+};
+
+
 static const struct _chip_serie _chip_series[] = {
 	{
 		.name       = "samx7",
@@ -84,6 +112,14 @@ static const struct _chip_serie _chip_series[] = {
 		.rstccr_reg = 0x400e1800,
 		.nb_chips   = ARRAY_SIZE(_chips_sam4),
 		.chips      = _chips_sam4,
+	},
+	{
+		.name       = "sam4s",
+		.cidr_reg   = 0x400e0740,
+		.exid_reg   = 0x400e0744,
+		.rstccr_reg = 0x400e1400,
+		.nb_chips   = ARRAY_SIZE(_chips_sam4s),
+		.chips      = _chips_sam4s,
 	},
 };
 
@@ -123,4 +159,59 @@ const struct _chip_serie* chipid_identity_serie(serial_port_handle_t fd, const s
 		if (chipid_check_serie(fd, &_chip_series[i], chip))
 			return &_chip_series[i];
 	return NULL;
+}
+
+
+// _chip_series muss extern definiert sein, z. B. in einer anderen Quelldatei.
+extern const struct _chip_serie _chip_series[];
+
+uint32_t supported_chips_checksum(void) {
+    uint32_t checksum = 0;
+
+    for (size_t i = 0; i < ARRAY_SIZE(_chip_series); i++) {
+        const struct _chip_serie *serie = &_chip_series[i];
+
+		uint32_t series_checksum = 0;
+
+        // Verarbeite den String der Serienbezeichnung
+        if (serie->name) {
+            const char *ptr = serie->name;
+            while (*ptr) {
+                series_checksum += (uint32_t)*ptr++;
+            }
+        }
+
+        // Addiere numerische Felder der Serie
+        series_checksum += serie->cidr_reg;
+        series_checksum += serie->exid_reg;
+        series_checksum += serie->rstccr_reg;
+        series_checksum += serie->nb_chips;
+
+        // Iteriere über die unterstützten Chips dieser Serie
+        for (size_t j = 0; j < serie->nb_chips; j++) {
+            const struct _chip *chip = &serie->chips[j];
+
+            // Verarbeite den String der Chipbezeichnung
+            if (chip->name) {
+                const char *ptr = chip->name;
+                while (*ptr) {
+                    series_checksum += (uint32_t)*ptr++;
+                }
+            }
+
+            // Addiere die restlichen numerischen Felder
+            series_checksum += chip->cidr;
+            series_checksum += chip->exid;
+            series_checksum += chip->eefc_base;
+            series_checksum += chip->flash_addr;
+            series_checksum += chip->flash_size;
+            series_checksum += chip->gpnvm;
+            series_checksum += chip->rstccr;
+        }
+		printf("Processor Family: %s; Supported Devices: %u; Checksum 0x%08x\n", serie->name, serie->nb_chips, series_checksum);
+		checksum += series_checksum;
+    }
+    
+    //printf("Checksum: 0x%08x\n", checksum);
+	return checksum;
 }
